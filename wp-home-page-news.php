@@ -29,14 +29,14 @@ function home_page_news_widget() {
 
 add_action( 'wp_dashboard_setup', 'home_page_news_widget' );
 
-// Build the Pending posts dashboard widget
+// Build widget
 function homepage_news_widget_function() {
 
 	$args = array(
-	  'post_type' => array('post', 'bibliotech', 'spotlight'),
+	  'post_type' => array('post', 'bibliotech', 'Spotlights'),
 	  'orderby'   => 'title',
 	  'order'     => 'ASC',
-	  'post_status' => 'published',
+	  'post_status' => 'any',
 	  'posts_per_page' => -1,
 	  'meta_query'             => array(
 		array(
