@@ -43,7 +43,7 @@ function homepage_news_widget_function() {
 	  'post_type'       => array( 'post', 'bibliotech', 'Spotlights' ),
 	  'orderby'         => 'title',
 	  'order'           => 'ASC',
-	  'post_status'     => 'any',
+	  'post_status'     => 'publish',
 	  'posts_per_page'  => 25,
 	  'meta_query'      => array(
 			array(
