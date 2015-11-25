@@ -55,8 +55,12 @@ function homepage_news_widget_function() {
 	);
 	$homePagePosts = new WP_Query( $args );
 
-	// Widget header partial.
-	$widgetHeader = <<<HEAD
+	// The Loop.
+	if ( $homePagePosts->have_posts() ) {
+
+		get_edit_post_link();
+
+?>
 <table class="widefat">
 	<thead>
 		<tr>
@@ -65,39 +69,26 @@ function homepage_news_widget_function() {
 		</tr>
 	</thead>
 	<tbody>
-HEAD;
-
-	// Widget footer partial.
-	$widgetFooter = <<<FOOT
-	</tbody>
-</table>
-FOOT;
-
-	// The Loop.
-	if ( $homePagePosts->have_posts() ) {
-
-		get_edit_post_link();
-		echo $widgetHeader;
+<?php
 
 		while ( $homePagePosts->have_posts() ) {
 			$homePagePosts->the_post();
 
-			$theLink = get_edit_post_link();
-			$theTitle = get_the_title();
-			$theAuthor = get_the_author();
-
-			// Widget row partial.
-			$widgetRow = <<<ROW
+?>
 		<tr>
-			<td class='row-title'><a href="$theLink">$theTitle</a></td>
-			<td class=''>$theAuthor</td>
+			<td class="row-title">
+				<a href="<?php echo esc_url( get_edit_post_link() ); ?>">
+					<?php esc_html_e( get_the_title() ); ?>
+				</a>
+			</td>
+			<td><?php esc_html_e( get_the_author() ); ?></td>
 		</tr>
-ROW;
-			echo $widgetRow;
-
+<?php
 		}
-
-		echo $widgetFooter;
+?>
+	</tbody>
+</table>
+<?php
 
 	} else {
 		echo 'Nothing on the homepage.';
