@@ -6,7 +6,7 @@
  * Domain Path:
  * Description:   Displays news selected for the home page in the dashboard
  * Author:        Melissa Spiegel
- * Version:       1.0.0
+ * Version:       1.1.0
  * Licence:       GPL2
  * Author URI:    https://github.com/melissaspiegel
  * Last Change:   03/09/2015
@@ -25,7 +25,7 @@ function home_page_news_widget() {
 	if ( current_user_can( 'add_users' ) ) {
 		// Add a pending posts dashboard widget.
 		wp_add_dashboard_widget(
-			'homepage-news_widget',         // Widget slug.
+			'homepage_news_widget',         // Widget slug.
 			'Posts sent to the homepage',   // Title.
 			'homepage_news_widget_function' // Display function.
 		);
