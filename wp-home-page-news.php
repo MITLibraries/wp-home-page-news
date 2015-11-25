@@ -1,58 +1,63 @@
 <?php
 /**
  * Plugin Name:   WP Home Page News
- * Plugin URI:    
- * Text Domain:   
- * Domain Path:   
+ * Plugin URI:    https://github.com/MITLibraries/wp-home-page-news
+ * Text Domain:
+ * Domain Path:
  * Description:   Displays news selected for the home page in the dashboard
  * Author:        Melissa Spiegel
- * Version:       0.1.0
+ * Version:       1.0.0
  * Licence:       GPL2
- * Author URI:    
+ * Author URI:    https://github.com/melissaspiegel
  * Last Change:   03/09/2015
+ * @package WP Home Page News
+ * @author Melissa Spiegel
+ * @link https://github.com/MITLibraries/wp-home-page-news
  */
 
-defined('ABSPATH') or die("No script kiddies, please!");
+defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
 
-// Add dashboard widgets
+/**
+ * Add dashboard widgets.
+ */
 function home_page_news_widget() {
-	// Admin-level users only
-	if (current_user_can('add_users')){
-		// Add a pending posts dashboard widget
+	// Admin-level users only.
+	if ( current_user_can( 'add_users' ) ) {
+		// Add a pending posts dashboard widget.
 		wp_add_dashboard_widget(
 			'homepage-news_widget',         // Widget slug.
-			'Posts sent to the homepage',         // Title.
+			'Posts sent to the homepage',   // Title.
 			'homepage_news_widget_function' // Display function.
 		);
 	}
 }
-
 add_action( 'wp_dashboard_setup', 'home_page_news_widget' );
 
-// Build widget
+/**
+ * Build widget.
+ */
 function homepage_news_widget_function() {
 
+	// Get list of featured/promoted posts.
 	$args = array(
-	  'post_type' => array('post', 'bibliotech', 'Spotlights'),
-	  'orderby'   => 'title',
-	  'order'     => 'ASC',
-	  'post_status' => 'any',
-	  'posts_per_page' => -1,
-	  'meta_query'             => array(
-		array(
-			'key'       => 'featuredArticle',
-			'value'     => 'True',
-			'compare'   => '=',
+	  'post_type'       => array( 'post', 'bibliotech', 'Spotlights' ),
+	  'orderby'         => 'title',
+	  'order'           => 'ASC',
+	  'post_status'     => 'any',
+	  'posts_per_page'  => 25,
+	  'meta_query'      => array(
+			array(
+				'key'         => 'featuredArticle',
+				'value'       => 'True',
+				'compare'     => '=',
+			),
 		),
-	),
 	);
-
 	$homePagePosts = new WP_Query( $args );
 
-	// The Loop
+	// The Loop.
 	if ( $homePagePosts->have_posts() ) {
-		
-		
+
 		get_edit_post_link();
 		echo  '<table class="widefat">' .
 						'<thead>' .
@@ -76,7 +81,7 @@ function homepage_news_widget_function() {
 	}
 
 	wp_reset_postdata();
-	
+
 }
 
 ?>
