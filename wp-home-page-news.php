@@ -25,7 +25,7 @@ function home_page_news_widget() {
 	if ( current_user_can( 'add_users' ) ) {
 		// Add a pending posts dashboard widget.
 		wp_add_dashboard_widget(
-			'homepage_news_widget',         // Widget slug.
+			'homepage-news_widget',         // Widget slug.
 			'Posts sent to the homepage',   // Title.
 			'homepage_news_widget_function' // Display function.
 		);
@@ -55,27 +55,50 @@ function homepage_news_widget_function() {
 	);
 	$homePagePosts = new WP_Query( $args );
 
+	// Widget header partial.
+	$widgetHeader = <<<HEAD
+<table class="widefat">
+	<thead>
+		<tr>
+			<th class="row-title" scope="col">Title</th>
+			<th>Author</th>
+		</tr>
+	</thead>
+	<tbody>
+HEAD;
+
+	// Widget footer partial.
+	$widgetFooter = <<<FOOT
+	</tbody>
+</table>
+FOOT;
+
 	// The Loop.
 	if ( $homePagePosts->have_posts() ) {
 
 		get_edit_post_link();
-		echo  '<table class="widefat">' .
-						'<thead>' .
-							'<tr>' .
-								'<th class="row-title">Post title</th>' .
-								'<th>Post author</th>' .
-							'</tr>' .
-						'</thead>' .
-						'<tbody>';
+		echo $widgetHeader;
+
 		while ( $homePagePosts->have_posts() ) {
 			$homePagePosts->the_post();
-			echo  '<tr>' .
-							'<td class="row-title"><a href="' . get_edit_post_link() . '">' . get_the_title() . '</a></td>' .
-							'<td>' . get_the_author() . '</td>' .
-						'</tr>';
+
+			$theLink = get_edit_post_link();
+			$theTitle = get_the_title();
+			$theAuthor = get_the_author();
+
+			// Widget row partial.
+			$widgetRow = <<<ROW
+		<tr>
+			<td class='row-title'><a href="$theLink">$theTitle</a></td>
+			<td class=''>$theAuthor</td>
+		</tr>
+ROW;
+			echo $widgetRow;
+
 		}
-		echo    '</tbody>' .
-					'</table>';
+
+		echo $widgetFooter;
+
 	} else {
 		echo 'Nothing on the homepage.';
 	}
