@@ -6,7 +6,7 @@
  * Domain Path:
  * Description:   Displays news selected for the home page in the dashboard
  * Author:        Melissa Spiegel
- * Version:       1.0.0
+ * Version:       1.1.0
  * Licence:       GPL2
  * Author URI:    https://github.com/melissaspiegel
  * Last Change:   03/09/2015
@@ -25,7 +25,7 @@ function home_page_news_widget() {
 	if ( current_user_can( 'add_users' ) ) {
 		// Add a pending posts dashboard widget.
 		wp_add_dashboard_widget(
-			'homepage-news_widget',         // Widget slug.
+			'homepage_news_widget',         // Widget slug.
 			'Posts sent to the homepage',   // Title.
 			'homepage_news_widget_function' // Display function.
 		);
@@ -43,7 +43,7 @@ function homepage_news_widget_function() {
 	  'post_type'       => array( 'post', 'bibliotech', 'Spotlights' ),
 	  'orderby'         => 'title',
 	  'order'           => 'ASC',
-	  'post_status'     => 'any',
+	  'post_status'     => 'publish',
 	  'posts_per_page'  => 25,
 	  'meta_query'      => array(
 			array(
@@ -59,23 +59,37 @@ function homepage_news_widget_function() {
 	if ( $homePagePosts->have_posts() ) {
 
 		get_edit_post_link();
-		echo  '<table class="widefat">' .
-						'<thead>' .
-							'<tr>' .
-								'<th class="row-title">Post title</th>' .
-								'<th>Post author</th>' .
-							'</tr>' .
-						'</thead>' .
-						'<tbody>';
+
+?>
+<table class="widefat">
+	<thead>
+		<tr>
+			<th class="row-title" scope="col">Title</th>
+			<th>Author</th>
+		</tr>
+	</thead>
+	<tbody>
+<?php
+
 		while ( $homePagePosts->have_posts() ) {
 			$homePagePosts->the_post();
-			echo  '<tr>' .
-							'<td class="row-title"><a href="' . get_edit_post_link() . '">' . get_the_title() . '</a></td>' .
-							'<td>' . get_the_author() . '</td>' .
-						'</tr>';
+
+?>
+		<tr>
+			<td class="row-title">
+				<a href="<?php echo esc_url( get_edit_post_link() ); ?>">
+					<?php esc_html_e( get_the_title() ); ?>
+				</a>
+			</td>
+			<td><?php esc_html_e( get_the_author() ); ?></td>
+		</tr>
+<?php
 		}
-		echo    '</tbody>' .
-					'</table>';
+?>
+	</tbody>
+</table>
+<?php
+
 	} else {
 		echo 'Nothing on the homepage.';
 	}
