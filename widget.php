@@ -18,7 +18,7 @@
 <?php
 while ( $home_page_posts->have_posts() ) {
 	$home_page_posts->the_post();
-?>
+	?>
 		<tr>
 			<td class="row-title">
 				<a href="<?php echo esc_url( get_edit_post_link() ); ?>">
@@ -27,7 +27,7 @@ while ( $home_page_posts->have_posts() ) {
 			</td>
 			<td><?php echo esc_html( get_the_author() ); ?></td>
 		</tr>
-<?php
+	<?php
 }
 ?>
 	</tbody>
