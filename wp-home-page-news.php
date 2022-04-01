@@ -3,7 +3,7 @@
  * Plugin Name:   WP Home Page News
  * Plugin URI:    https://github.com/MITLibraries/wp-home-page-news
  * Description:   Displays news selected for the home page in the dashboard
- * Version:       2.0.0
+ * Version:       2.1.0-beta1
  * Author:        MIT Libraries
  * Author URI:    https://github.com/MITLibraries
  * Licence:       GPL2
